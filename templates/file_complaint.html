@@ -1,0 +1,32 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="form-section">
+                <form method="POST" action="">
+                    {{ form.hidden_tag() }}
+
+                    <fieldset class="form-group">
+                        <legend class="border-bottom mb-4">File a New Complaint</legend>
+                        
+                        <div class="mb-3">
+                            {{ form.title.label(class="form-label") }}
+                            {{ form.title(class="form-control", placeholder="e.g., Theft of personal item") }}
+                        </div>
+
+                        <div class="mb-3">
+                            {{ form.description.label(class="form-label") }}
+                            {{ form.description(class="form-control", rows=5, placeholder="Please provide all relevant details about the incident.") }}
+                        </div>
+                    </fieldset>
+
+                    <div class="form-group mt-4">
+                        {{ form.submit(class="btn btn-primary w-100") }}
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
