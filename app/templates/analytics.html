@@ -1,0 +1,86 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Analytics Dashboard</h2>
+    <div class="row">
+        <div class="col-lg-6 mb-4">
+            <div class="content-section">
+                <h4>Complaints by Category</h4>
+                <canvas id="categoryChart"></canvas>
+            </div>
+        </div>
+        <div class="col-lg-6 mb-4">
+            <div class="content-section">
+                <h4>Complaints by Urgency</h4>
+                <canvas id="sentimentChart"></canvas>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <div class="content-section">
+                <h4>Crime Hotspots Map</h4>
+                <div id="heatmap" style="height: 500px; border-radius: 8px;"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.heat/dist/leaflet-heat.js"></script>
+
+<script>
+    // Data passed from Flask
+    const categoryData = {{ category_data | tojson }};
+    const sentimentData = {{ sentiment_data | tojson }};
+    const locationData = {{ location_data | tojson }};
+
+    // Category Chart (Pie)
+    new Chart(document.getElementById('categoryChart'), {
+        type: 'pie',
+        data: {
+            labels: Object.keys(categoryData),
+            datasets: [{
+                label: 'Complaints',
+                data: Object.values(categoryData),
+                backgroundColor: ['#dc3545', '#ffc107', '#0d6efd', '#198754', '#6c757d']
+            }]
+        }
+    });
+
+    // Sentiment Chart (Doughnut)
+    new Chart(document.getElementById('sentimentChart'), {
+        type: 'doughnut',
+        data: {
+            labels: Object.keys(sentimentData),
+            datasets: [{
+                label: 'Sentiment',
+                data: Object.values(sentimentData),
+                backgroundColor: ['#dc3545', '#0dcaf0', '#6c757d']
+            }]
+        }
+    });
+
+    // Heatmap
+    const map = L.map('heatmap').setView([20.5937, 78.9629], 5); // Centered on India
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+        attribution: '&copy; CartoDB'
+    }).addTo(map);
+
+    // Dummy conversion of location names to lat/lng for demonstration
+    // A real app would use a geocoding API
+    const points = locationData.map(loc => {
+        // Simple and limited geocoding logic
+        if (loc.toLowerCase().includes('delhi')) return [28.70, 77.10, 0.5];
+        if (loc.toLowerCase().includes('mumbai')) return [19.07, 72.87, 0.8];
+        if (loc.toLowerCase().includes('bangalore')) return [12.97, 77.59, 0.6];
+        return null;
+    }).filter(p => p !== null);
+
+    if (points.length > 0) {
+        L.heatLayer(points, { radius: 25 }).addTo(map);
+    }
+</script>
+{% endblock content %}

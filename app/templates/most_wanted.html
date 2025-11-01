@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="content-section">
+        <h2 class="mb-4 border-bottom pb-2">Most Wanted Individuals</h2>
+        {% if criminals %}
+            <div class="row">
+                {% for criminal in criminals %}
+                <div class="col-md-4 mb-4">
+                    <div class="info-card">
+                        <img src="{{ url_for('static', filename='profile_pics/' + criminal.image_file) }}" alt="Photo of {{ criminal.name }}">
+                        <h5>{{ criminal.name }}</h5>
+                        <p class="small text-muted">{{ criminal.details }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">There are currently no "Most Wanted" individuals listed.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

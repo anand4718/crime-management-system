@@ -1,0 +1,85 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <h2 class="mb-4">Admin Control Panel</h2>
+    
+    {% if alerts %}
+    <div class="alert alert-danger mb-4">
+        <h4 class="alert-heading">New AI-Detected Trends!</h4>
+        <ul>
+            {% for alert in alerts %}
+                <li><strong>{{ alert.title }}:</strong> {{ alert.description }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+    {% endif %}
+
+    <a href="{{ url_for('analytics_dashboard') }}" class="btn btn-info mb-4">View Analytics Dashboard</a>
+
+    <div class="form-section mb-5">
+        <h4>Manage Public Records (Missing, Wanted, etc.)</h4>
+        <form method="POST" action="{{ url_for('add_public_info') }}" enctype="multipart/form-data">
+            {{ form.hidden_tag() }}
+            <div class="row">
+                <div class="col-md-4 mb-3">{{ form.name.label(class="form-label") }}{{ form.name(class="form-control") }}</div>
+                <div class="col-md-4 mb-3">{{ form.category.label(class="form-label") }}{{ form.category(class="form-select") }}</div>
+                <div class="col-md-4 mb-3">{{ form.picture.label(class="form-label") }}{{ form.picture(class="form-control") }}</div>
+                <div class="col-md-12 mb-3">{{ form.details.label(class="form-label") }}{{ form.details(class="form-control", rows=2) }}</div>
+            </div>
+            {{ form.submit(class="btn btn-primary") }}
+        </form>
+    </div>
+
+    <div class="content-section mb-5">
+        <h4>All Filed Complaints</h4>
+        <div class="table-responsive">
+            <table class="table table-dark table-striped">
+                <thead><tr><th>ID</th><th>Title</th><th>User</th><th>Category</th><th>Sentiment</th><th>Status</th><th>Action</th></tr></thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.id }}</td>
+                        <td>{{ complaint.title }}</td>
+                        <td>{{ complaint.author.username }}</td>
+                        <td>{{ complaint.category }}</td>
+                        <td>{{ complaint.sentiment }}</td>
+                        <td>
+                             <select name="status" id="status-{{ complaint.id }}" class="form-select form-select-sm bg-dark text-white d-inline w-auto" 
+                                     onchange="updateStatus({{ complaint.id }}, this.value)">
+                                 <option value="Pending" {% if complaint.status == 'Pending' %}selected{% endif %}>Pending</option>
+                                 <option value="In Progress" {% if complaint.status == 'In Progress' %}selected{% endif %}>In Progress</option>
+                                 <option value="Resolved" {% if complaint.status == 'Resolved' %}selected{% endif %}>Resolved</option>
+                             </select>
+                        </td>
+                        <td><a href="{{ url_for('delete_complaint', complaint_id=complaint.id) }}" class="btn btn-sm btn-danger">Delete</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <div class="content-section">
+        <h4>User Management</h4>
+        <div class="table-responsive">
+             <table class="table table-dark table-striped">
+                <thead><tr><th>ID</th><th>Username</th><th>Email</th><th>Admin</th><th>Actions</th></tr></thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ 'Yes' if user.is_admin else 'No' }}</td>
+                        <td>
+                            <a href="{{ url_for('toggle_admin', user_id=user.id) }}" class="btn btn-sm btn-warning">Toggle Admin</a>
+                            <a href="{{ url_for('delete_user', user_id=user.id) }}" class="btn btn-sm btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

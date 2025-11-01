@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="content-section">
+        <h2 class="mb-4 border-bottom pb-2">Missing Persons Reports</h2>
+        {% if persons %}
+            <div class="row">
+                {% for person in persons %}
+                <div class="col-md-4 mb-4">
+                    <div class="info-card">
+                        <img src="{{ url_for('static', filename='profile_pics/' + person.image_file) }}" alt="Photo of {{ person.name }}">
+                        <h5>{{ person.name }}</h5>
+                        <p class="small text-muted">{{ person.details }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">There are currently no missing person reports.</div>
+        {% endif %}
+    </div>
+</div>
+{% endblock content %}

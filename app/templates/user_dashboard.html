@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="container my-5">
+    <div class="content-section">
+        <h2 class="mb-4">Welcome, {{ current_user.username }}</h2>
+        <a href="{{ url_for('file_complaint') }}" class="btn btn-primary mb-4">File a New Complaint</a>
+        
+        <h3 class="border-bottom pb-2 mb-3">Your Filed Complaints</h3>
+        <div class="table-responsive">
+            <table class="table table-dark table-striped table-hover">
+                <thead>
+                    <tr>
+                        <th>Complaint Title</th>
+                        <th>AI Category</th>
+                        <th>AI Urgency</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for complaint in complaints %}
+                    <tr>
+                        <td>{{ complaint.title }}</td>
+                        <td>
+                            <span class="badge bg-secondary">{{ complaint.category }}</span>
+                        </td>
+                        <td>
+                            <span class="badge {% if complaint.sentiment == 'Urgent' %}bg-danger{% else %}bg-info{% endif %}">
+                                {{ complaint.sentiment }}
+                            </span>
+                        </td>
+                        <td>
+                            <span class="badge bg-warning text-dark">{{ complaint.status }}</span>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="4" class="text-center">You have not filed any complaints yet.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}

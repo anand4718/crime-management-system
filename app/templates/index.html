@@ -1,0 +1,61 @@
+{% extends "layout.html" %}
+{% block content %}
+<section class="hero-section">
+    <div class="hero-overlay"></div>
+    <div class="container hero-content">
+        <div class="row align-items-center">
+            {% if not current_user.is_authenticated %}
+                <div class="col-lg-7 text-lg-start">
+                    <h1 class="display-4">DIGITIZING CRIME REPORTING FOR SAFER COMMUNITIES</h1>
+                </div>
+                <div class="col-lg-5">
+                    <div class="user-account-box mx-auto">
+                        <h4 class="text-center">USER ACCOUNT</h4>
+                        <a href="{{ url_for('register') }}" class="btn btn-primary w-100 mb-2">REGISTER</a>
+                        <a href="{{ url_for('login') }}" class="btn btn-secondary w-100">LOGIN</a>
+                    </div>
+                </div>
+            {% else %}
+                <div class="col-lg-12 text-center">
+                    <h1 class="display-4">WELCOME BACK, {{ current_user.username.upper() }}</h1>
+                    <p class="lead">You can file a new complaint or check your dashboard.</p>
+                    <a href="{{ url_for('user_dashboard') }}" class="btn btn-primary btn-lg mt-3">Go to Dashboard</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<div class="container my-5">
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="content-section d-flex justify-content-between align-items-center">
+                <h3>CRIME REPORTING</h3>
+                <a href="{{ url_for('file_complaint') }}" class="btn btn-lg btn-primary">FILE A COMPLAINT</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-5">
+        <div class="col-12">
+            <div class="content-section">
+                <h3 class="border-bottom pb-2 mb-3">Latest Crime News</h3>
+                {% if news_articles %}
+                    <ul class="list-group list-group-flush">
+                        {% for article in news_articles %}
+                            <li class="list-group-item bg-transparent text-white">
+                                <i class="fas fa-newspaper me-2"></i>
+                                <a href="{{ article.link }}" target="_blank" rel="noopener noreferrer">
+                                    {{ article.title }}
+                                </a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <p>Could not load news at this time. Please check back later.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

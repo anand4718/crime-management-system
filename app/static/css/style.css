@@ -1,0 +1,83 @@
+/* --- DEFAULT DARK THEME --- */
+body {
+    background-color: #1a222c;
+    color: #cdd3d8;
+    font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+main { flex-grow: 1; }
+h1, h2, h3, h4, h5, h6 { color: #ffffff; font-weight: 600; }
+a { color: #4da6ff; text-decoration: none; }
+a:hover { color: #8ccbff; }
+
+.top-bar { background-color: #2c3e50; padding: 0.5rem 1rem; font-size: 0.9rem; border-bottom: 1px solid #3a4b60; transition: background-color 0.3s ease, border-color 0.3s ease; }
+.main-nav { background-color: #34495e; padding: 0.5rem 1rem; border-bottom: 2px solid #4da6ff; transition: background-color 0.3s ease; }
+.main-nav .nav-link { color: #ecf0f1; font-weight: 500; margin: 0 0.5rem; transition: background-color 0.2s ease, color 0.2s ease; }
+.main-nav .nav-link:hover, .main-nav .nav-link.active { background-color: #4a627a; color: #ffffff; }
+
+.content-section, .form-section { background-color: #2c3e50; padding: 2rem; border-radius: 8px; margin-bottom: 2rem; transition: background-color 0.3s ease; }
+.info-card { background-color: #34495e; border: 1px solid #4a627a; text-align: center; padding: 1rem; border-radius: 8px; height: 100%; transition: transform 0.2s ease-in-out, background-color 0.3s ease, border-color 0.3s ease; }
+.info-card:hover { transform: scale(1.05); }
+
+.form-control, .form-select { background-color: #1a222c; border: 1px solid #4a627a; color: #ecf0f1; }
+.form-control:focus, .form-select:focus { background-color: #1a222c; border-color: #4da6ff; color: #ecf0f1; box-shadow: none; }
+
+.btn { transition: all 0.2s ease-in-out; }
+.btn:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+footer { background-color: #2c3e50; color: #cdd3d8; padding: 2rem 1rem; margin-top: auto; font-size: 0.9rem; border-top: 3px solid #34495e; transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; }
+.table-dark { --bs-table-bg: #2c3e50; }
+
+/* --- LIGHT THEME OVERRIDES --- */
+body.light-theme {
+    background-color: #f8f9fa;
+    color: #212529;
+}
+.light-theme h1, .light-theme h2, .light-theme h3, .light-theme h4, .light-theme h5, .light-theme h6 { color: #1a222c; }
+.light-theme a { color: #007bff; }
+.light-theme a:hover { color: #0056b3; }
+
+.light-theme .top-bar { background-color: #e9ecef; border-bottom: 1px solid #dee2e6; }
+.light-theme .top-bar, .light-theme .top-bar a, .light-theme .top-bar .navbar-text { color: #343a40 !important; }
+.light-theme .top-bar h5 { color: #343a40; }
+.light-theme .main-nav { background-color: #ffffff; box-shadow: 0 2px 4px rgba(0,0,0,.1); }
+.light-theme .main-nav .nav-link { color: #495057; }
+.light-theme .main-nav .nav-link:hover { background-color: #f8f9fa; color: #0056b3; }
+
+.light-theme .content-section, .light-theme .form-section { background-color: #ffffff; box-shadow: 0 4px 8px rgba(0,0,0,.05); }
+.light-theme .info-card { background-color: #f8f9fa; border-color: #dee2e6; }
+
+.light-theme .form-control, .light-theme .form-select { background-color: #ffffff; border-color: #ced4da; color: #495057; }
+.light-theme .form-control:focus, .light-theme .form-select:focus { background-color: #ffffff; border-color: #80bdff; color: #495057; }
+
+/* --- FIX FOR BUTTONS IN LIGHT THEME --- */
+.light-theme .btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff; /* Ensures text is always white */
+}
+.light-theme .btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+.light-theme .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff; /* Ensures text is always white */
+}
+.light-theme .btn-outline-light {
+    color: #343a40;
+    border-color: #343a40;
+}
+.light-theme .btn-outline-light:hover {
+    color: #ffffff;
+    background-color: #343a40;
+}
+
+.light-theme .table-dark { --bs-table-bg: #f8f9fa; --bs-table-color: #212529; --bs-table-striped-color: #212529; border-color: #dee2e6;}
+.light-theme .table-striped > tbody > tr:nth-of-type(odd) > * { --bs-table-accent-bg: #f2f2f2; }
+
+.light-theme footer { background-color: #e9ecef; color: #6c757d; border-top: 1px solid #dee2e6; }
+.light-theme footer a { color: #6c757d; }
